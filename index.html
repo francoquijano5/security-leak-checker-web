@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Security Leak Checker</title>
+    <style>
+        body { font-family: sans-serif; background: #1a1a1a; color: white; text-align: center; padding: 50px; }
+        input { padding: 10px; width: 300px; border-radius: 5px; border: none; }
+        button { padding: 10px 20px; background: #e74c3c; color: white; border: none; cursor: pointer; border-radius: 5px; }
+        #result { margin-top: 20px; padding: 20px; border-radius: 5px; display: none; }
+        .safe { background: #27ae60; }
+        .danger { background: #c0392b; }
+    </style>
+</head>
+<body>
+    <h1>🛡️ ¿Ha sido filtrado tu email?</h1>
+    <p>Introduce tu correo para verificar brechas de seguridad conocidas.</p>
+    <input type="email" id="email" placeholder="ejemplo@correo.com">
+    <button onclick="checkLeak()">Verificar ahora</button>
+    <div id="result"></div>
+
+    <script>
+        async function checkLeak() {
+            const email = document.getElementById('email').value;
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = "Buscando en bases de datos...";
+
+            // Nota: En un entorno real usarías la API de HaveIBeenPwned. 
+            // Para este ejemplo de portfolio, simulamos la lógica de la API:
+            setTimeout(() => {
+                if(email.includes("test")) {
+                    resultDiv.className = "danger";
+                    resultDiv.innerHTML = "⚠️ ¡ALERTA! Este correo aparece en 3 filtraciones masivas.";
+                } else {
+                    resultDiv.className = "safe";
+                    resultDiv.innerHTML = "✅ No se han encontrado brechas para este correo. ¡Buen trabajo!";
+                }
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
